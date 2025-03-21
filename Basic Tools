@@ -1,0 +1,65 @@
+Secure Shell:
+- Runs on port 22
+- Provides user with a secure way to access a computer remotely
+- Can be configured with password auth or passwordless using public-key auth with pub/priv key pair
+- Syntax:
+  ssh Bob@10.10.10.10
+
+
+Netcat (ncat, nc):
+- Utilize to interact with TCP/UDP ports
+- Connect to shells with it
+- Example syntax:
+  netcat 10.10.10.10 22
+    - IP and port
+- This is called banner grabbing which helps ID what service is running on a particular port
+- Windows alternative is called PowerCat https://github.com/besimorhino/powercat
+- socat (https://linux.die.net/man/1/socat) is also used when needing to upgrade a shell to full interactive or when needing to forward ports and connect 
+to serial devices
+
+
+Tmux:
+- Can also use Screen
+- Terminal multiplexer
+- Install using the following
+  sudo apt install tmux -y
+- Commands:
+  To input tmux commands: [CTRL + B]
+  To open a new window in tmux: c
+  To switch to a window: #
+  To split a window vertically: [SHIFT + %]
+  To split a window horizontal: [SHIFT + "]
+  TO switch panes utilize the arrows
+- Useful Guide and cheatsheet 
+  - https://tmuxcheatsheet.com/
+  - https://tmuxcheatsheet.com/
+
+
+Vim:
+- Text editor relies totally on keyboard
+- To edit a file: i
+- Once done editing a file, hit esc 
+- Useful shortcuts:
+x	  Cut character
+dw	Cut word
+dd	Cut full line
+yw	Copy word
+yy	Copy full line
+p	  Paste
+- To save file, : (this puts us in command mode) 
+:1	Go to line number 1.
+:w	Write the file, save
+:q	Quit
+:q!	Quit without saving
+:wq	Write and quit
+
+
+
+
+
+
+
+
+
+
+
