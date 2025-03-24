@@ -1,0 +1,24 @@
+- Looking for OS and services running on said system
+- Looking for misconfigured services or ones that have a vulnerability
+- Well known ports are 1 - 1023
+
+NMAP: Network Mapper
+
+- Basic Scan: nmap <ip address>
+  - Scans the first 1000 most common ports by default
+  - Default is to scan TCP ports and not UDP
+  - State heading has multiple options
+    - filtered: Firewall allowing access to the ports from specific ip
+    - Open: Is open
+    - Closed: Is closed 
+
+- More advanced scan: nmap -sV -sC -p- <ip address>
+  - sC: specifies that nmap scripts should be used to try and optain more detailed information
+  - sV: perform a version scan
+  - -p-: Scan all 65535 TCP ports
+
+- Nmap Scripts:
+  - locate scripts/<scripts string>
+
+- Banner Grabbing: nmap -sV --script=banner <ip address>
+
