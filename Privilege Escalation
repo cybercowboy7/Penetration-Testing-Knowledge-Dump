@@ -1,0 +1,44 @@
+Goal:
+- Linux: Gain root access
+- Windows: administrator/SYSTEM
+
+
+PRIVESC CHECKLISTS:
+
+- https://book.hacktricks.xyz/
+- https://github.com/swisskyrepo/PayloadsAllTheThings
+
+
+ENUMERATION SCRIPTS:
+
+- https://github.com/rebootuser/LinEnum.git
+- https://github.com/sleventyeleven/linuxprivchecker
+- https://github.com/GhostPack/Seatbelt
+- https://github.com/411Hall/JAWS
+- https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite
+
+
+KERNEL EXPLOITS:
+
+- Old OS == potential kernel vulnerabilities
+
+
+VULNERABLE SOFTWARE:
+
+- dpkg -l command n LInux or look at C:\Program Files in Windows to see what software is installed on the system.
+
+
+USER PRIVILEGES:
+
+- 
+
+
+
+
+
+
+
+
+
+
+
